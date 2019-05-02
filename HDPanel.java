@@ -1,4 +1,3 @@
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -106,37 +105,43 @@ public class HDPanel extends JPanel
 				enterHD.setText("" + ((JSlider)e.getSource()).getValue());
 			}
 		});
-		
+		//This panel will be created to hold a button and an empty space for formatting
 		JPanel panel2 = new JPanel(new GridLayout(0, 2));
-		
+		//This button will output the list of Station ID's a certain Hamming Distance away
 		JButton showStation = new JButton("Show Station");
-		
 		
 		panel2.add(showStation);
 		
-		
+		//First, created a JTextArea for the output list
 		JTextArea output = new JTextArea();
+		//Second, add the JTextArea to a JScrollPane so the user can scroll through the list
 		JScrollPane outputsp = new JScrollPane(output);
-		outputsp.setSize(150,250);
 		
-		
+		//This is a label for the dropdown box
 		JLabel compareInfo = new JLabel("Compare with:");
+		//This creates a dropdown box filled with strings
 		JComboBox<String> stationComboBox = new JComboBox<String>();
+		//This calls upon the myList() method and places that in the list for the program
 		this.list = myList();
 		
+		//The list is then looped through and added to the dropdown box
 		for(int index=0; index < list.size(); index++) {
 			stationComboBox.addItem(list.get(index));
 		}
 		
+		//ActionListener was added to the showStation button so when the button is pressed, a list is output in the JTextArea.
 		showStation.addActionListener(new ActionListener() 
 		{
 
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				// TODO Auto-generated method stub
+				//new arrayList that will hold the station ID's that are the selected Hamming Distance
 				ArrayList<String> outputList = new ArrayList<String>();
 				
+				//Reads value from the JTextField enterHD and checks if it is equal to 1, 2, 3, or 4.
+				//Once the Hamming Distance is chosen the list will then be looped through to check 
+				//if the Hamming Distance is equal to the selected value and if it is, then the string from the list is added to the new outputList
 				if (enterHD.getText().equals("1")) 
 				{
 					for(int index = 0; index < list.size(); index++) {
@@ -178,21 +183,24 @@ public class HDPanel extends JPanel
 						}
 					}
 				}
+				//I used this for loop and String in order to create the desired output for the list. (adds a new line after each string)
 				String strg = "";
 				for(int index = 0; index < outputList.size(); index++)
 				{
 					strg += outputList.get(index) + "\n";
 				}
+				//Sets the output JTextField to the String created
 				output.setText(strg);
 			}	
 			
 		});
-		panel2.add(showStation);
-		panel0.add(panel1);
+		
+		//order matters so panel1 then Slider bar then panel 2 and lastly the JScrollPane
+		panel0.add(panel1);//order matters so panel1 then Slider bar then panel 2 and lastly the JScrollPane
 		panel0.add(HDSlider);
 		panel0.add(panel2);
 		panel0.add(outputsp);
-		
+		//panel3 will contain the dropdown box and its JLabel
 		JPanel panel3 = new JPanel(new GridLayout(0,2));
 		
 		panel3.add(compareInfo);
@@ -200,13 +208,14 @@ public class HDPanel extends JPanel
 		
 		panel0.add(panel3);
 		
+		//panel 4 will hold only the calculateHD button 
 		JPanel panel4 = new JPanel(new GridLayout(0,2));
 		
 		
 		JButton calculateHD = new JButton("Calculate HD");
 		
 		
-		
+		//Initialize JLabels, JTextFields, and JButtons to be used
 		JLabel distance0 = new JLabel("Distance 0");
 		JTextField distance0out = new JTextField();
 		distance0out.setEditable(false);
@@ -225,11 +234,12 @@ public class HDPanel extends JPanel
 		JButton addStation = new JButton("Add Station");
 		JTextField addStationInput = new JTextField();
 		
+		//Add an ActionListener that will calculate the sums of each Hamming Distance
 		calculateHD.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				int distance0 = 0;
 				int distance1 = 0;
 				int distance2 = 0;
@@ -268,11 +278,12 @@ public class HDPanel extends JPanel
 			
 		});
 		
+		//add an ActionListener to addStation JButton in order to write out to the file and add the new ID to the list and dropdown box
 		addStation.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				try (FileWriter input = new FileWriter("Mesonet.txt"); 
 						BufferedWriter bw = new BufferedWriter(input)){
 					list.add(addStationInput.getText());
@@ -294,40 +305,51 @@ public class HDPanel extends JPanel
 		});
 		panel4.add(calculateHD);
 		panel0.add(panel4);
+		//panel to hold Distance 0 outputs
 		JPanel dist0p = new JPanel(new GridLayout(1,2));
-		
 		dist0p.add(distance0);
 		dist0p.add(distance0out);
 		panel0.add(dist0p);
+		//panel to hold Distance 1 outputs
 		JPanel dist1p = new JPanel(new GridLayout(1,2));
 		dist1p.add(distance1);
 		dist1p.add(distance1out);
 		panel0.add(dist1p);
+		//panel to hold Distance 2 outputs
 		JPanel dist2p = new JPanel(new GridLayout(1,2));
 		dist2p.add(distance2);
 		dist2p.add(distance2out);
 		panel0.add(dist2p);
+		//panel to hold Distance 3 outputs
 		JPanel dist3p = new JPanel(new GridLayout(1,2));
 		dist3p.add(distance3);
 		dist3p.add(distance3out);
 		panel0.add(dist3p);
+		//panel to hold Distance 4 outputs
 		JPanel dist4p = new JPanel(new GridLayout(1,2));
 		dist4p.add(distance4);
 		dist4p.add(distance4out);
 		panel0.add(dist4p);
+		//panel to hold the addstation button and input JTextField
 		JPanel addStationPanel = new JPanel(new GridLayout(1,2));
 		addStationPanel.add(addStation);
 		addStationPanel.add(addStationInput);
 		panel0.add(addStationPanel);
+		//add the panel to the class panel
 		panel.add(panel0);
+		//add the panel to the class panel
 		this.add(panel);
-	
+		
+		//This contains the creative idea panel
 		JPanel panel00 = new JPanel(new GridLayout(0,1));
+		//this panel will contain just a single button that says "Calculate" that when pressed
+		//will calculate the total number of station ID that have the same first letter, second letter, third letter, and fourth letter
 		JPanel panel01 = new JPanel(new GridLayout(0,2));
 		JButton calculate = new JButton("Calculate");
 		
+		//creates a label to explain what the button does
 		JLabel firstLetterInfo = new JLabel("The Number of IDs that start with:");
-		
+		//panel to hold a label that will hold the selected station IDs letters and the output sum.
 		JPanel panel02 = new JPanel(new GridLayout(0,2));
 		JLabel firstLetter = new JLabel();
 		JTextField firstLetterSum = new JTextField();
@@ -362,6 +384,7 @@ public class HDPanel extends JPanel
 		panel05.add(fourthLetter);
 		panel05.add(fourthLetterSum);
 		
+		//add an ActionListener to calculate the sums of letter
 		calculate.addActionListener(new ActionListener() {
 
 			@Override

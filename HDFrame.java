@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -6,7 +5,7 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 public class HDFrame extends JFrame {
 	
-	private static final int FRAME_WIDTH = 1000;
+	private static final int FRAME_WIDTH = 800;
 	private static final int FRAME_HEIGHT = 1000;
 	
 	private JFrame frame = new JFrame("Hamming Distance");
@@ -16,7 +15,6 @@ public class HDFrame extends JFrame {
 		frame.add(new HDPanel());
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBackground(Color.CYAN);
 		frame.setVisible(true);
 
 	}
