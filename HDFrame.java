@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -15,8 +16,7 @@ public class HDFrame extends JFrame {
 		frame.add(new HDPanel());
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
+		frame.setBackground(Color.CYAN);
 		frame.setVisible(true);
 
 	}

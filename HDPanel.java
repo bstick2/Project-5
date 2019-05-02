@@ -28,7 +28,12 @@ public class HDPanel extends JPanel
 	private static final int PANEL_WIDTH = 500;
 	private static final int PANEL_HEIGHT = 800;
 	
-	private ArrayList<String> list;
+	private ArrayList<String> list;//ArrayList that will contain all the Station ID's from "Mesonet.txt"
+	
+	
+	/* This method will be used to initial the ArrayList<String> list
+	 * 
+	 */
 	public static ArrayList<String> myList() throws IOException
 	{
 		ArrayList<String> stidList = new ArrayList<String>();
@@ -38,11 +43,10 @@ public class HDPanel extends JPanel
         String strg = null;
  
      
-        // Loop over the lines in the file and place them into the String array named 'stidList'
+        // Loop over the lines in the file and place them into the ArrayList<String> named 'stidList'
         while((strg = br.readLine()) != null) 
         {
-        	//strg.substring(1,5) is used to pull only the 4 variables of the Station ID's. 
-        	//The index starts at 1 since each line of the file starts with a space.
+        	//strg.substring(0,4) is used to pull only the 4 variables of the Station ID's.
         	stidList.add(strg.substring(0, 4)); 
         }      
         //Close the buffered reader
@@ -51,6 +55,10 @@ public class HDPanel extends JPanel
         return stidList;
 		
 	}
+	
+	/*
+	 * This method will calculate the Hamming distance between two Strings.
+	 */
 	
 	public int HammingDistCalc(String stid1, String stid2) {
 		int index; //used to locate and check each letter of the string
@@ -71,34 +79,35 @@ public class HDPanel extends JPanel
 		setSize(PANEL_WIDTH, PANEL_HEIGHT);
 		
 		
-		JPanel panel = new JPanel(new GridLayout(0,2));
+		JPanel panel = new JPanel(new GridLayout(0,2));//This panel will contain the required parts of the project on the left side and the creative part on the right side.
 		
-		JPanel panel0 = new JPanel(new GridLayout(12,1));
-		panel0.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-		
-		JPanel panel1 = new JPanel(new GridLayout(0,2));
+		JPanel panel0 = new JPanel(new GridLayout(12,1));//This panel will contain all the components for the required parts of the project.
+				
+		JPanel panel1 = new JPanel(new GridLayout(0,2));//This panel will contain a JLabel and JTextField
 		
 		JLabel enterHDInfo = new JLabel("Enter Hamming Dist:");
 		JTextField enterHD = new JTextField();
-		enterHD.setEditable(false);
-		enterHD.setText("1");
+		enterHD.setEditable(false);//This is so the user cannot change the vaule in the JTextField
+		enterHD.setText("1");//Initialize the JTextField to read "1".
 		panel1.add(enterHDInfo);
 		panel1.add(enterHD);
 		panel1.setSize(100, 10);
 		
-		JSlider HDSlider = new JSlider(JSlider.HORIZONTAL, 1, 4, 1);
+		JSlider HDSlider = new JSlider(JSlider.HORIZONTAL, 1, 4, 1);//The JSlider is the slider that will be used to set the Hamming Distance to be calculated
 		HDSlider.setMajorTickSpacing(1);
+		//Setting the slider up to show the ticks and labels
 		HDSlider.setPaintTicks(true);
 		HDSlider.setPaintLabels(true);
 		HDSlider.setPaintTrack(true);
 		
+		//Add ChangeListener to change the text of the JTextField "enterHD"
 		HDSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				enterHD.setText("" + ((JSlider)e.getSource()).getValue());
 			}
 		});
 		
-		JPanel panel2 = new JPanel(new GridLayout(0, 2, 100, 100));
+		JPanel panel2 = new JPanel(new GridLayout(0, 2));
 		
 		JButton showStation = new JButton("Show Station");
 		
@@ -277,11 +286,10 @@ public class HDPanel extends JPanel
 					{
 						stationComboBox.addItem(list.get(j));
 					}
-					
+					bw.close();
 				}catch (IOException e1) {
 					System.err.format("IOException : %s%n", e1);
 				}
-				
 			}
 		});
 		panel4.add(calculateHD);
